@@ -1,7 +1,39 @@
 <div id="app">
 
-  The current temperature is {{ currentTemp }} (°F) in {{ location }}
+  The current temperature is {{ currentTemp }} (°F) in {{ location }} <br/>
+  Add a new location: 
+
+  <input type='text' name='inputlocation'>
+
+  <!-- <button v-on:click="addLocation()" class="btn">Add Location</button> -->
 
   <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<h3>Forecast Data</h3>
+
+<div class="forecast-table">
+  <table>
+    <tr>
+      <th>Location</th>
+      <th>Temperature</th>
+      <th>Time</th>
+
+
+    </tr>
+      <% @forecasts.each do |forecast| %>
+      <tr>
+        <td><%= forecast.location %></td>
+        <td><%= forecast.temp %></td>
+        <td><%= forecast.created_at %></td>
+      </tr>
+      <% end %>
+      <tr>
+        <td>{{location}} </td>
+        <td>{{currentTemp}} </td>
+        <td>{{currentTime}} </td>
+      </tr>
+  </table>
+</div>
+
 
 </div>

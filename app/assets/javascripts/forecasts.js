@@ -3,9 +3,10 @@
     el: '#app',
     data: {
       currentTemp: 0,
+      currentTime: '',
       location: '',
       chartTemps: [],
-      chartTime: []
+      chartTimes: []
     },
     mounted: function() {
       $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response) {
@@ -22,9 +23,10 @@
         $.post('/forecasts', parameters, function(response) { 
         
           $.get('/api/v1/forecasts',function(response){
+            this.currentTime = response[response.length-1].time;           
             for(i=0; i<response.length; i++){
               this.chartTemps.push(parseInt(response[i].temp));          
-              this.chartTime.push(new Date(response[i].time));          
+              this.chartTimes.push(new Date(response[i].time));
             }
 
             chart.addSeries({
@@ -36,7 +38,7 @@
 
         }.bind(this));
 
-      this.chartTime = chart.xAxis[0].categories
+      this.chartTimes = chart.xAxis[0].categories
 
       }.bind(this));
 
