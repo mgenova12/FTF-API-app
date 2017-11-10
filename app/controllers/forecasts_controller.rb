@@ -3,7 +3,10 @@ class ForecastsController < ApplicationController
   end
 
   def create
-    Forecast.create(temp: params[:temp]);
+    Forecast.create(
+      temp: params[:temp],
+      location: params[:location]
+      );
   end
 
 end
