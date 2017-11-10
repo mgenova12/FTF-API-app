@@ -5,7 +5,7 @@
 
   <!-- <input type='text' name='inputlocation'> -->
 
-  <!-- <button v-on:click="addLocation()" class="btn">Add Location</button> -->
+  <button v-on:click="updateForecasts()" class="btn">Add Location</button>
 
   <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
@@ -18,18 +18,13 @@
         <th>Temperature</th>
         <th>Time</th>
       </tr>
-        <tr>
-          <td>{{location}} </td>
-          <td>{{currentTemp}}°F </td>
-          <td>{{currentTime}} </td>
-        </tr>
-        <% @forecasts.each do |forecast| %>
-          <tr>
-            <td><%= forecast.location %></td>
-            <td><%= forecast.temp %>°F</td>
-            <td><%= forecast.created_at %></td>
-          </tr>
-        <% end %>
+        
+      <tr v-for="data in apiData">
+        <td>{{data.location}}</td>
+        <td>{{data.temp}}°F</td>
+        <td>{{data.time}}</td>
+      </tr>
+        
     </table>
   </div>
 

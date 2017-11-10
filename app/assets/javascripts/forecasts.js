@@ -2,18 +2,35 @@
   var app = new Vue({
     el: '#app',
     data: {
+      apiData: null,
       currentTemp: 0,
       currentTime: '',
       location: '',
       chartTemps: [],
       chartTimes: []
     },
-    mounted: function() {
-      $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response) {
+    mounted: function() { //on refresh it should bring up all current data on the api 
+        
+          // $.get('/api/v1/forecasts',function(response){
+          //   this.currentTime = response[response.length-1].time;           
+          //   for(i=0; i<response.length; i++){
+          //     this.chartTemps.push(parseInt(response[i].temp));          
+          //     this.chartTimes.push(new Date(response[i].time));
+          //   }
+
+          //   chart.addSeries({
+          //     name: this.location,
+          //     data: this.chartTemps
+          //   })
+          // });
+
+    },//end mounted
+    methods: {
+      updateForecasts: function(){ // on fucntion it should make post request to api
+        $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response) {
           this.currentTemp = parseInt(response.query.results.channel.item.condition.temp);
           this.location = response.query.results.channel.location.city
           console.log(response.query.results.channel) //all
-          console.log(this.currentTemp)
           
         var parameters = {
           temp: this.currentTemp,
@@ -24,9 +41,11 @@
         
           $.get('/api/v1/forecasts',function(response){
             this.currentTime = response[response.length-1].time;           
-            for(i=0; i<response.length; i++){
-              this.chartTemps.push(parseInt(response[i].temp));          
-              this.chartTimes.push(new Date(response[i].time));
+            this.chartTemps.push(parseInt(response[response.length-1].temp));          
+            this.chartTimes.push(new Date(response[response.length-1].time));
+            this.apiData = response.reverse();
+            while(chart.series.length > 0){
+              chart.series[0].remove(true);
             }
 
             chart.addSeries({
@@ -40,11 +59,12 @@
 
       this.chartTimes = chart.xAxis[0].categories
 
-      }.bind(this));
+      }.bind(this));  
 
+      } //end updateForecasts
 
-    }//end mounted
-      
+    }//end methods
+
   });//end vue
 
   var chart = Highcharts.chart('container', {
