@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Current stack preferred - Rails - Sidekiq - React - JavaScript, JQuery - PostgreSQL, Redis, Heroku, AWS.   
+  Collect data from an API that is generated on an interval (once a min/hour/day/etc).
 
-Things you may want to cover:
+  Build a web app that displays a graph of collected data with your choice of intervals. 
 
-* Ruby version
+  Add a report of the data with column headings below the graph. 
 
-* System dependencies
+  Deploy your solution to any free tier host(Heroku, AWS, Digital Ocean..) and provide link.
 
-* Configuration
+  Also provide link to Github with any special instructions that may be needed to run app locally. 
 
-* Database creation
+  Backend Bonus:
 
-* Database initialization
+  - Build the system that to collects data that is generated on an interval (once a min/hour/day/etc). 
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    Store in database; record time and data value
