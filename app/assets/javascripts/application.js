@@ -13,7 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require vue
+//= require highcharts
 //= require_tree .
+
 
 
 // setTimeout(function () { 
