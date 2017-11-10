@@ -11,18 +11,23 @@
     },
     mounted: function() { //on refresh it should bring up all current data on the api 
         
-          // $.get('/api/v1/forecasts',function(response){
-          //   this.currentTime = response[response.length-1].time;           
-          //   for(i=0; i<response.length; i++){
-          //     this.chartTemps.push(parseInt(response[i].temp));          
-          //     this.chartTimes.push(new Date(response[i].time));
-          //   }
-
-          //   chart.addSeries({
-          //     name: this.location,
-          //     data: this.chartTemps
-          //   })
-          // });
+      $.get('/api/v1/forecasts',function(response){
+        this.apiData = response.reverse();
+        this.currentTime = response[response.length-1].time;  
+        this.location = response[response.length-1].location;         
+        this.chartTimes = chart.xAxis[0].categories
+        for(i=0; i<response.length; i++){
+          this.chartTemps.unshift(parseInt(response[i].temp));          
+          this.chartTimes.unshift(new Date(response[i].time));
+        }
+        while(chart.series.length > 0){
+          chart.series[0].remove(true);
+        }
+        chart.addSeries({
+          name: this.location,
+          data: this.chartTemps
+        })
+      }.bind(this));
 
     },//end mounted
     methods: {
