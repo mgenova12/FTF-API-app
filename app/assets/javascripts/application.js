@@ -18,6 +18,4 @@
 
 
 
-// setTimeout(function () { 
-//   location.reload();
-// }, 60 * 500);
+

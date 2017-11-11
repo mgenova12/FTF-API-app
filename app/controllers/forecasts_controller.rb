@@ -5,7 +5,8 @@ class ForecastsController < ApplicationController
   def create
     Forecast.create(
       temp: params[:temp],
-      location: params[:location]
+      location: params[:location],
+      pubdate: params[:pubdate]
       );
   end
 
