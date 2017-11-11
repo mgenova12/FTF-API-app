@@ -10,11 +10,12 @@
       chartTimes: []
     },
     mounted: function() { //on refresh it should bring up all current data on the api 
-        
+      // setInterval(this.updateForecasts, 1000);
       $.get('/api/v1/forecasts',function(response){
         this.apiData = response.reverse();
-        this.currentTime = response[response.length-1].time;  
-        this.location = response[response.length-1].location;         
+        this.currentTime = response[0].time;  
+        this.currentTemp = response[0].temp;  
+        this.location = response[0].location;         
         this.chartTimes = chart.xAxis[0].categories
         for(i=0; i<response.length; i++){
           this.chartTemps.unshift(parseInt(response[i].temp));          
