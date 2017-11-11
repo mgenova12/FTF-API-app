@@ -34,7 +34,7 @@
 
         }
 
-        setInterval(this.updateForecasts,60*1000) // checks if data is updated every minute
+        setInterval(this.updateForecasts,5000) // checks if data is updated every minute
 
       }.bind(this));
 
@@ -56,12 +56,12 @@
             $.post('/forecasts', parameters, function(response) { 
             
               $.get('/api/v1/forecasts',function(response){
+        
                 this.apiData = response.reverse();
-                this.currentTime = response[response.length-1].time;           
-                this.chartTemps.push(parseInt(response[response.length-1].temp)); 
-                this.location = response[response.length-1].location;         
-                this.chartTimes.push(new Date(response[response.length-1].time).toLocaleString());
-                
+                this.currentTime = response[0].time;           
+                this.chartTemps.push(parseInt(response[0].temp)); 
+                this.location = response[0].location;         
+                this.chartTimes.push(new Date(response[0].time).toLocaleString());
                 while(chart.series.length > 0){
                   chart.series[0].remove(true);
                 }
