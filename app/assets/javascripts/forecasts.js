@@ -34,7 +34,7 @@
 
         }
 
-        setInterval(this.updateForecasts,10000) // on refresh checks updateForcast every 10 sec
+        setInterval(this.updateForecasts,60*1000) // checks if data is updated every minute
 
       }.bind(this));
 
