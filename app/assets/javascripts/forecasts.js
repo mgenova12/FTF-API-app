@@ -9,7 +9,7 @@
       chartTemps: [],
       chartTimes: []
     },
-    mounted: function() { //on refresh it should bring up all current data on the api 
+    mounted: function() { 
       $.get('/api/v1/forecasts',function(response){
         if (response.length > 0){
           this.apiData = response.reverse();  
@@ -34,7 +34,7 @@
 
         }
 
-        setInterval(this.updateForecasts,5000) // checks if data is updated every minute
+        setInterval(this.updateForecasts,60*1000) // checks if data is updated every minute
 
       }.bind(this));
 
