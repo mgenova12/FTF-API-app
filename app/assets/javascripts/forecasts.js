@@ -34,8 +34,8 @@
 
         }
 
-        this.updateForecasts() // updates data immediately on page load
-        setInterval(this.updateForecasts,5*60*1000) // checks if data is updated every 5 minute
+        this.updateForecasts()// updates data immediately on page load
+        setInterval(this.updateForecasts,5*60*1000)// checks if data is updated every 5 minutes
 
       }.bind(this));
 
@@ -44,14 +44,11 @@
       updateForecasts: function(){ 
         $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response) {
           if (this.currentTime != response.query.results.channel.item.pubDate){
-            this.currentTemp = parseInt(response.query.results.channel.item.condition.temp);
-            this.location = response.query.results.channel.location.city
-            this.currentTime = response.query.results.channel.item.pubDate
 
             var parameters = {
-              temp: this.currentTemp,
-              location: this.location,
-              pubdate: this.currentTime
+              temp: parseInt(response.query.results.channel.item.condition.temp),
+              location: response.query.results.channel.location.city,
+              pubdate: response.query.results.channel.item.pubDate
             };
 
             $.post('/forecasts', parameters, function(response) { 
@@ -63,6 +60,7 @@
                 this.chartTemps.push(parseInt(response[0].temp)); 
                 this.location = response[0].location;         
                 this.chartTimes.push(new Date(response[0].time).toLocaleString());
+                
                 while(chart.series.length > 0){
                   chart.series[0].remove(true);
                 }
@@ -75,8 +73,7 @@
               }.bind(this));
 
             }.bind(this));
-
-            this.chartTimes = chart.xAxis[0].categories
+            this.chartTimes = chart.xAxis[0].categories //adds chartTimes to graph
           }
         }.bind(this));  
         
