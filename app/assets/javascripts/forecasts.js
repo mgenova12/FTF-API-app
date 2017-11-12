@@ -34,6 +34,7 @@
 
         }
 
+        // this.updateForecasts();
         setInterval(this.updateForecasts,60*1000) // checks if data is updated every minute
 
       }.bind(this));
