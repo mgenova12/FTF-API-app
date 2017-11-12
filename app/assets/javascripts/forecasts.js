@@ -69,7 +69,7 @@
 
                 chart.addSeries({
                   name: this.location,
-                  data: this.chartTemps
+                  data: this.chartTemps,
                 })
               
               }.bind(this));
@@ -88,7 +88,8 @@
 
   var chart = Highcharts.chart('container', {
       chart: {
-          type: 'line'
+          type: 'line',
+          backgroundColor: null
       },
       title: {
           text: 'Hourly Temperature'
@@ -97,20 +98,26 @@
           text: 'Source: Yahoo.com'
       },
       xAxis: {
-          categories: []
+          categories: [],
+          lineColor: '#666666',
+          tickColor: '#666666'
       },
       yAxis: {
+        gridLineColor: '#666666',
           title: {
               text: 'Temperature (°F)'
           }
       },
       plotOptions: {
-          line: {
-              dataLabels: {
-                  enabled: true
-              },
-              enableMouseTracking: false
-          }
+        series: {
+            color: 'rgb(244, 91, 91)' //red
+        },
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
       },
       series: []
   });
