@@ -34,8 +34,8 @@
 
         }
 
-        // this.updateForecasts();
-        setInterval(this.updateForecasts,60*1000) // checks if data is updated every minute
+        this.updateForecasts() // updates data immediately on page load
+        setInterval(this.updateForecasts,5*60*1000) // checks if data is updated every 5 minute
 
       }.bind(this));
 
@@ -116,4 +116,3 @@
   });
 
 });//end document
-
