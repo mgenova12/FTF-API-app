@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     },
     methods: {
       updateForecasts: function(){ 
-        $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response){
-          if (this.currentTime != response.query.results.channel.item.pubDate){ 
-            this.currentTemp = parseInt(response.query.results.channel.item.condition.temp);
-            this.location = response.query.results.channel.location.city;
-            this.currentTime = response.query.results.channel.item.pubDate;
+        $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(yahooResponse){
+          if (this.currentTime != yahooResponse.query.results.channel.item.pubDate){ 
+            this.currentTemp = parseInt(yahooResponse.query.results.channel.item.condition.temp);
+            this.location = yahooResponse.query.results.channel.location.city;
+            this.currentTime = yahooResponse.query.results.channel.item.pubDate;
 
             var parameters = {
               temp: this.currentTemp,
@@ -52,14 +52,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
               pubdate: this.currentTime
             };
 
-            $.post('/forecasts', parameters, function(response){ 
+            $.post('/forecasts', parameters, function(forcastResponse){ 
             
-              $.get('/api/v1/forecasts',function(response){
-                this.apiData = response.reverse();
-                this.currentTime = response[0].time;           
-                this.chartTemps.push(parseInt(response[0].temp)); 
-                this.location = response[0].location;         
-                this.chartTimes.push(new Date(response[0].time).toLocaleString());
+              $.get('/api/v1/forecasts',function(apiResponse){
+                this.apiData = apiResponse.reverse();
+                this.currentTime = apiResponse[apiResponse.length-1].time;           
+                this.chartTemps.push(parseInt(apiResponse[0].temp)); 
+                this.location = apiResponse[0].location;         
+                this.chartTimes.push(new Date(apiResponse[0].time).toLocaleString());
                 
                 while(chart.series.length > 0){
                   chart.series[0].remove(true);
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             this.chartTimes = chart.xAxis[0].categories; //adds chart times to graph
           }
-        }.bind(this));   
+        }.bind(this)); 
       }
     }
 
