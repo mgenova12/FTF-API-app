@@ -1,4 +1,4 @@
-  document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function(event) { 
   var app = new Vue({
     el: '#app',
     data: {
@@ -33,19 +33,18 @@
           }
         }
 
-        this.updateForecasts() // checks if data is updated immediately on page load
-        setInterval(this.updateForecasts, 5*60*1000) // checks if data is updated every 5 minutes
+        this.updateForecasts(); // checks if data is updated immediately on page load
+        setInterval(this.updateForecasts, 5*60*1000); // checks if data is updated every 5 minutes
 
       }.bind(this));
-
-    },//end mounted
+    },
     methods: {
       updateForecasts: function(){ 
-        $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response) {
+        $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(response){
           if (this.currentTime != response.query.results.channel.item.pubDate){ 
             this.currentTemp = parseInt(response.query.results.channel.item.condition.temp);
-            this.location = response.query.results.channel.location.city
-            this.currentTime = response.query.results.channel.item.pubDate
+            this.location = response.query.results.channel.location.city;
+            this.currentTime = response.query.results.channel.item.pubDate;
 
             var parameters = {
               temp: this.currentTemp,
@@ -53,10 +52,9 @@
               pubdate: this.currentTime
             };
 
-            $.post('/forecasts', parameters, function(response) { 
+            $.post('/forecasts', parameters, function(response){ 
             
               $.get('/api/v1/forecasts',function(response){
-        
                 this.apiData = response.reverse();
                 this.currentTime = response[0].time;           
                 this.chartTemps.push(parseInt(response[0].temp)); 
@@ -76,15 +74,13 @@
 
             }.bind(this));
 
-            this.chartTimes = chart.xAxis[0].categories //adds chart times to graph
+            this.chartTimes = chart.xAxis[0].categories; //adds chart times to graph
           }
-        }.bind(this));  
-        
-      }//end updateForecasts
+        }.bind(this));   
+      }
+    }
 
-    }//end methods
-
-  });//end vue
+  });
 
   var chart = Highcharts.chart('container', {
       chart: {
@@ -122,4 +118,4 @@
       series: []
   });
 
-});//end document
+});
