@@ -17,5 +17,6 @@
 //= require_tree .
 
 
-
-
+$(window).load(function(){
+  $('#page-loader').fadeOut(200);
+})  
