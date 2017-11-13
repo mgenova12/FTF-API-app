@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       updateForecasts: function(){ 
         $.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22newyork%2C%20%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys', function(yahooResponse){
           $.get('/api/v1/forecasts',function(apiResponse1){
-          if (apiResponse1[apiResponse1.length-1].time == yahooResponse.query.results.channel.item.pubDate){ 
+          if (apiResponse1[apiResponse1.length-1].time != yahooResponse.query.results.channel.item.pubDate){ 
             this.currentTemp = parseInt(yahooResponse.query.results.channel.item.condition.temp);
             // this.location = yahooResponse.query.results.channel.location.city;
             // this.currentTime = yahooResponse.query.results.channel.item.pubDate;
